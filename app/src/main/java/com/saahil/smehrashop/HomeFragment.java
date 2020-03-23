@@ -1,10 +1,10 @@
 package com.saahil.smehrashop;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,14 +22,16 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ProductAdapter.ItemClicked {
     View root;
     RecyclerView rvProductList;
     RecyclerView.Adapter productAdapter;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<Products> productList;
     JsonPlaceHolderApi jsonPlaceHolderApi;
-    Context context;
+
+    public HomeFragment() {
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,8 +44,6 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        context=this.getActivity();
-
         Retrofit retrofit=new Retrofit.Builder()
                 .baseUrl("http://192.168.29.214:8000/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
         rvProductList.setHasFixedSize(true);
         productList=new ArrayList<>();
 
-        layoutManager=new LinearLayoutManager(context);
+        layoutManager=new LinearLayoutManager(this.getActivity());
         rvProductList.setLayoutManager(layoutManager);
         
         getProducts();
@@ -66,19 +66,34 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<ArrayList<Products>> call, Response<ArrayList<Products>> response) {
                 if(!response.isSuccessful()){
-                    //Toast.makeText(this, "Code: "+ response.code(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Code: "+ response.code(), Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 productList=response.body();
-                productAdapter=new ProductAdapter(context, productList);
+                productAdapter=new ProductAdapter(HomeFragment.this, productList);
                 rvProductList.setAdapter(productAdapter);
             }
 
             @Override
             public void onFailure(Call<ArrayList<Products>> call, Throwable t) {
-
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void onItemClicked(int index) {
+        ProductDetailFragment detailFragment=new ProductDetailFragment();
+
+        Bundle args=new Bundle();
+        args.putInt("id", productList.get(index).getId());
+        detailFragment.setArguments(args);
+
+        this.getParentFragmentManager().beginTransaction()
+                .add(R.id.nav_host_fragment, detailFragment)
+                .hide(this)
+                .addToBackStack(null)
+                .commit();
     }
 }

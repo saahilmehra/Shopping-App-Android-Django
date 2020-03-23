@@ -1,6 +1,5 @@
 package com.saahil.smehrashop;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +17,15 @@ import java.util.ArrayList;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
 
     ArrayList<Products> products;
+    ItemClicked activity;
 
-    public ProductAdapter(Context context, ArrayList<Products> list){
+    public interface ItemClicked{
+        void onItemClicked(int index);
+    }
+
+    public ProductAdapter(ItemClicked itemClicked, ArrayList<Products> list){
         products=list;
+        activity=itemClicked;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -31,8 +36,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             super(itemView);
             tvName=itemView.findViewById(R.id.tvName);
             tvPrice=itemView.findViewById(R.id.tvPrice);
-            tvDescription=itemView.findViewById(R.id.tvDescription);
             ivProductImage=itemView.findViewById(R.id.ivProductImage);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    activity.onItemClicked(products.indexOf((Products) view.getTag()));
+                }
+            });
         }
     }
 
@@ -45,9 +56,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         holder.itemView.setTag(products.get(position));
         holder.tvName.setText(products.get(position).getName());
-        holder.tvDescription.setText(products.get(position).getDescription());
         holder.tvPrice.setText("$"+products.get(position).getPrice());
         Picasso.get().load(products.get(position).getImage()).placeholder(R.drawable.no_image).into(holder.ivProductImage);
     }
