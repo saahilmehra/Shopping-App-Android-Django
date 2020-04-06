@@ -1,6 +1,6 @@
 package com.saahil.smehrashop;
 
-import com.saahil.smehrashop.Model.Products;
+import com.saahil.smehrashop.Models.Products;
 
 import java.util.ArrayList;
 

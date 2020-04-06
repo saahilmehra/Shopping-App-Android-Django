@@ -1,8 +1,8 @@
-package com.saahil.smehrashop.Model;
+package com.saahil.smehrashop.Models;
 
 public class Products {
     String name, image, description, price;
-    int id, category;
+    int id, category, quantity;
 
     public Products(){
 
@@ -15,6 +15,14 @@ public class Products {
         this.price = price;
         this.id = id;
         this.category = category;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getName() {

@@ -1,4 +1,4 @@
-package com.saahil.smehrashop;
+package com.saahil.smehrashop.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.saahil.smehrashop.Model.Products;
+import com.saahil.smehrashop.Models.Products;
+import com.saahil.smehrashop.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tvName, tvPrice, tvDescription;
+        TextView tvName, tvPrice;
         ImageView ivProductImage;
 
         public ViewHolder(@NonNull View itemView) {
@@ -56,7 +57,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
         holder.itemView.setTag(products.get(position));
         holder.tvName.setText(products.get(position).getName());
         holder.tvPrice.setText("$"+products.get(position).getPrice());

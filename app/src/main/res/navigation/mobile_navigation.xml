@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home">
     </fragment>
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.saahil.smehrashop.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_cart"
+        android:name="com.saahil.smehrashop.CartFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_cart" />
 
     <fragment
         android:id="@+id/nav_slideshow"

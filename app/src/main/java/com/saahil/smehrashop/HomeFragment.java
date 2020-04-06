@@ -12,7 +12,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.saahil.smehrashop.Model.Products;
+import com.saahil.smehrashop.Adapters.ProductAdapter;
+import com.saahil.smehrashop.Models.Products;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class HomeFragment extends Fragment implements ProductAdapter.ItemClicked
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+                              ViewGroup container, Bundle savedInstanceState) {
 
         root = inflater.inflate(R.layout.fragment_home, container, false);
         return root;
