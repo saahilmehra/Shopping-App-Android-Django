@@ -1,5 +1,6 @@
 package com.saahil.smehrashop;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -65,6 +66,14 @@ public class CartFragment extends Fragment implements CartAdapter.ItemClicked {
         cartAdapter=new CartAdapter(CartFragment.this, cartProducts, tvTotalAmount);
         rvProductList.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
+
+        btnCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getActivity(), CheckoutActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getCartProducts() {
